@@ -4,5 +4,9 @@
     "module": "ESNext",
     "moduleResolution": "bundler"
   },
-  "references": [{ "path": "./web" }]
+  "references": [
+    { "path": "./web" },
+    { "path": "./api" },
+    { "path": "./shared" }
+  ]
 }
