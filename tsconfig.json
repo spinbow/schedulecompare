@@ -7,6 +7,7 @@
   "references": [
     { "path": "./web" },
     { "path": "./api" },
+    { "path": "./db" },
     { "path": "./shared" }
   ]
 }
