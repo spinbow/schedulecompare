@@ -1,6 +1,5 @@
 {
   "name": "@schedulecompare/web",
-  "version": "0.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,7 +8,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@schedulecompare/api": "workspace:*",
+    "@schedulecompare/shared": "workspace:*",
     "@tailwindcss/vite": "^4.3.0",
+    "@trpc/client": "^11.17.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "tailwindcss": "^4.3.0"

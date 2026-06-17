@@ -1,4 +1,8 @@
 {
   "files": [],
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler"
+  },
   "references": [{ "path": "./web" }]
 }

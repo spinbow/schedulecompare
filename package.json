@@ -3,9 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "pnpm --filter @schedulecompare/web dev",
+    "dev": "concurrently -n web,api -c cyan,magenta \"pnpm web:dev\" \"pnpm api:dev\"",
+    "web:dev": "pnpm --filter @schedulecompare/web dev",
     "web:build": "pnpm --filter @schedulecompare/web build",
     "web:preview": "pnpm --filter @schedulecompare/web preview",
+    "api:dev": "pnpm --filter @schedulecompare/api dev",
+    "api:start": "pnpm --filter @schedulecompare/api start",
+    "api:build": "pnpm --filter @schedulecompare/api build",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
@@ -13,6 +17,7 @@
     "typecheck": "tsc -b"
   },
   "devDependencies": {
+    "concurrently": "^10.0.3",
     "lefthook": "^2.1.9",
     "oxfmt": "^0.54.0",
     "oxlint": "^1.69.0",
