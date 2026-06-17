@@ -1,0 +1,23 @@
+{
+  "name": "@schedulecompare/api",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/app-router.ts"
+  },
+  "scripts": {
+    "dev": "tsx --watch src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@schedulecompare/shared": "workspace:*",
+    "@trpc/server": "^11.17.0",
+    "cors": "^2.8.6"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/node": "^24.13.1"
+  }
+}
