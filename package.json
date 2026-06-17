@@ -17,13 +17,14 @@
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
-    "typecheck": "tsc -b"
+    "typecheck": "pnpm -r --parallel --if-present typecheck"
   },
   "devDependencies": {
     "concurrently": "^10.0.3",
     "lefthook": "^2.1.9",
     "oxfmt": "^0.54.0",
     "oxlint": "^1.69.0",
+    "tsx": "^4.22.4",
     "typescript": "~6.0.2"
   },
   "packageManager": "pnpm@11.1.1"

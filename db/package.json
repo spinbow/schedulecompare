@@ -5,7 +5,8 @@
   "scripts": {
     "push": "pnpm exec drizzle-kit push",
     "generate": "pnpm exec drizzle-kit generate",
-    "migrate": "pnpm exec drizzle-kit migrate"
+    "migrate": "pnpm exec drizzle-kit migrate",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
