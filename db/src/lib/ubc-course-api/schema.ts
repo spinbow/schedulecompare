@@ -1,4 +1,13 @@
 import { z } from 'zod';
+import { DayOfTheWeekSchema } from '../../schema';
+
+const LinksSchema = z.object({
+  next: z
+    .object({
+      href: z.string(),
+    })
+    .optional(),
+});
 
 const ApiCourseDataSchema = z.object({
   id: z.uuidv4(),
@@ -10,16 +19,7 @@ const ApiCourseDataSchema = z.object({
     field_course_instance_id: z.string(),
   }),
 });
-
-const LinksSchema = z.object({
-  next: z
-    .object({
-      href: z.string(),
-    })
-    .optional(),
-});
-
-export const ApiResponseSchema = z.object({
+export const ApiCoursesResponseSchema = z.object({
   jsonapi: z.object({
     version: z.literal('1.1'),
   }),
@@ -27,5 +27,27 @@ export const ApiResponseSchema = z.object({
   links: LinksSchema,
 });
 
+const ApiSectionDataSchema = z.object({
+  id: z.uuidv4(),
+  type: z.literal('node--section'),
+  attributes: z.object({
+    field_section_number: z.string(),
+    field_start_date: z.iso.date(),
+    field_end_date: z.iso.date(),
+    field_start_time: z.number().int().positive(),
+    field_end_time: z.number().int().positive(),
+    field_days: z.array(DayOfTheWeekSchema),
+  }),
+});
+export const ApiSectionsResponseSchema = z.object({
+  jsonapi: z.object({
+    version: z.literal('1.1'),
+  }),
+  data: z.array(ApiSectionDataSchema),
+  links: LinksSchema,
+});
+
 export type ApiCourseData = z.infer<typeof ApiCourseDataSchema>;
-export type ApiResponse = z.infer<typeof ApiResponseSchema>;
+export type ApiCoursesResponse = z.infer<typeof ApiCoursesResponseSchema>;
+export type ApiSectionData = z.infer<typeof ApiSectionDataSchema>;
+export type ApiSectionsResponse = z.infer<typeof ApiSectionsResponseSchema>;
