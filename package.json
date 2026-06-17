@@ -9,9 +9,11 @@
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check"
+    "fmt:check": "oxfmt --check",
+    "typecheck": "tsc -b"
   },
   "devDependencies": {
+    "lefthook": "^2.1.9",
     "oxfmt": "^0.54.0",
     "oxlint": "^1.69.0",
     "typescript": "~6.0.2"
