@@ -19,6 +19,9 @@
     "fmt:check": "oxfmt --check",
     "typecheck": "pnpm -r --parallel --if-present typecheck"
   },
+  "dependencies": {
+    "zod": "^4.4.3"
+  },
   "devDependencies": {
     "concurrently": "^10.0.3",
     "lefthook": "^2.1.9",
