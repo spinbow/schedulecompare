@@ -20,6 +20,7 @@
     "typecheck": "pnpm -r --parallel --if-present typecheck"
   },
   "dependencies": {
+    "better-auth": "^1.6.16",
     "dotenv": "^17.4.2",
     "zod": "^4.4.3"
   },
