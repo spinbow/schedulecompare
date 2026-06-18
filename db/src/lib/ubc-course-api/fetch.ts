@@ -16,16 +16,23 @@ function getApiUrl(): string {
   return url;
 }
 
-export async function fetchCourses(): Promise<ApiCourseData[]> {
-  const data: ApiCourseData[] = [];
+// limit specifies the maximum number of courses the function will try for.
+// it is possible to get more courses than this number if the API happens to provide more.
+export async function fetchCourses(limit?: number): Promise<ApiCourseData[]> {
+  let data: ApiCourseData[] = [];
 
   const startingUrl = new URL('jsonapi/node/course', getApiUrl()).toString();
   let url: string | undefined = startingUrl;
 
   while (url) {
     const page = await fetchCoursesPage(url);
-    console.log(page.data);
-    data.concat(page.data); // concat is generally faster than spread
+    console.log(`got ${page.data.length} courses from ${url}`);
+    data = data.concat(page.data); // concat is generally faster than spread
+
+    if (limit && data.length >= limit) {
+      break;
+    }
+
     url = page.links?.next?.href;
   }
 
@@ -37,14 +44,15 @@ async function fetchCoursesPage(url: string): Promise<ApiCoursesResponse> {
 
   const { success, data, error } = ApiCoursesResponseSchema.safeParse(json);
   if (!success) {
-    throw new Error('Failed to parse course page', error);
+    console.log(error.issues);
+    throw new Error('Failed to parse course page');
   }
 
   return data;
 }
 
 export async function fetchSections(courseId: string): Promise<ApiSectionData[]> {
-  const data: ApiSectionData[] = [];
+  let data: ApiSectionData[] = [];
 
   const startingUrl = new URL('jsonapi/node/section', getApiUrl());
   startingUrl.searchParams.set('filter[field_course.id]', courseId);
@@ -52,8 +60,7 @@ export async function fetchSections(courseId: string): Promise<ApiSectionData[]>
 
   while (url) {
     const page = await fetchSectionsPage(url);
-    console.log(page.data);
-    data.concat(page.data); // concat is generally faster than spread
+    data = data.concat(page.data); // concat is generally faster than spread
     url = page.links?.next?.href;
   }
 
@@ -63,10 +70,10 @@ async function fetchSectionsPage(url: string): Promise<ApiSectionsResponse> {
   const response = await fetch(url);
   const json = await response.json();
 
-  console.log(json);
   const { success, data, error } = ApiSectionsResponseSchema.safeParse(json);
   if (!success) {
-    throw new Error('Failed to parse section page', error);
+    console.log(error.issues);
+    throw new Error('Failed to parse section page');
   }
 
   return data;

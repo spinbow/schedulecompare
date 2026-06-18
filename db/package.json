@@ -9,7 +9,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "dotenv": "^17.4.2",
     "drizzle-orm": "^v1.0.0-rc.3",
     "pg": "^8.21.0"
   },

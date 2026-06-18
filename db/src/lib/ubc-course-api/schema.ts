@@ -34,8 +34,8 @@ const ApiSectionDataSchema = z.object({
     field_section_number: z.string(),
     field_start_date: z.iso.date(),
     field_end_date: z.iso.date(),
-    field_start_time: z.number().int().positive(),
-    field_end_time: z.number().int().positive(),
+    field_start_time: z.number().int().positive().nullable(),
+    field_end_time: z.number().int().positive().nullable(),
     field_days: z.array(DayOfTheWeekSchema),
   }),
 });

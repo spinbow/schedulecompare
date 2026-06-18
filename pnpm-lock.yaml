@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
       zod:
         specifier: ^4.4.3
         version: 4.4.3
@@ -52,9 +55,6 @@ importers:
 
   db:
     dependencies:
-      dotenv:
-        specifier: ^17.4.2
-        version: 17.4.2
       drizzle-orm:
         specifier: ^v1.0.0-rc.3
         version: 1.0.0-rc.4-5d5b77c(@types/pg@8.20.0)(pg@8.21.0)(zod@4.4.3)

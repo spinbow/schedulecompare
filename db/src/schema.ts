@@ -4,7 +4,7 @@ import { defineRelations } from 'drizzle-orm';
 import { z } from 'zod';
 
 export const DayOfTheWeekSchema = z.literal(['m', 't', 'w', 'th', 'f']);
-export const SessionSchema = z.literal(['S', 'W']);
+export const SessionSchema = z.literal(['s', 'w']);
 export const TermSchema = z.literal(['1', '2', null]);
 
 export type DayOfTheWeek = z.infer<typeof DayOfTheWeekSchema>;
@@ -28,8 +28,8 @@ export const sectionsTable = pgTable('sections', {
   session: char({ length: 1 }).notNull(),
   term: char({ length: 1 }),
 
-  startTime: time().notNull(),
-  endTime: time().notNull(),
+  startTime: time(),
+  endTime: time(),
 
   monday: boolean().notNull().default(false),
   tuesday: boolean().notNull().default(false),
