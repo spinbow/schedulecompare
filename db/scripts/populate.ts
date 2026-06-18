@@ -7,7 +7,7 @@ import {
   apiSectionDataToDbSection,
 } from '../src/lib/ubc-course-api/to-db';
 import { createDatabaseClient } from '../src/client';
-import { coursesTable, sectionsTable } from '../src/schema';
+import { coursesTable, sectionsTable } from '../src/schema/courses';
 
 // script for fetching and populating data in the database.
 // use --limit or -L to specify the number of courses to fetch

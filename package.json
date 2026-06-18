@@ -13,6 +13,7 @@
     "db:push": "pnpm --filter @schedulecompare/db push",
     "db:generate": "pnpm --filter @schedulecompare/db generate",
     "db:migrate": "pnpm --filter @schedulecompare/db migrate",
+    "env:link": "for dir in web api db shared; do ln -sf ../.env \"$dir/.env\"; done",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
@@ -20,6 +21,7 @@
     "typecheck": "pnpm -r --parallel --if-present typecheck"
   },
   "dependencies": {
+    "better-auth": "^1.6.16",
     "dotenv": "^17.4.2",
     "zod": "^4.4.3"
   },

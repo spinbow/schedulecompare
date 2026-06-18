@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { DayOfTheWeekSchema } from '../../schema';
+import { DayOfTheWeekSchema } from '../../schema/courses';
 
 const LinksSchema = z.object({
   next: z
