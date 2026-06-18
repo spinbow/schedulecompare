@@ -1,11 +1,44 @@
-import { createHTTPServer } from '@trpc/server/adapters/standalone';
+import { serve } from '@hono/node-server';
+import { Hono } from 'hono';
+import { trpcServer } from '@hono/trpc-server';
+import process from 'node:process';
 import { appRouter } from './app-router';
-import cors from 'cors';
+import { cors } from 'hono/cors';
 
-const server = createHTTPServer({
-  router: appRouter,
-  middleware: cors(),
+const app = new Hono();
+
+app.use('*', cors());
+app.use(
+  '/trpc/*',
+  trpcServer({
+    router: appRouter,
+  }),
+);
+
+app.get('/', (c) => {
+  return c.text('Hello Hono!');
 });
 
-server.listen(3000);
-console.log('API server running on port 3000');
+const server = serve(
+  {
+    fetch: app.fetch,
+    port: 3000,
+  },
+  (info) => {
+    console.log(`Server is running on http://localhost:${info.port}`);
+  },
+);
+
+process.on('SIGINT', () => {
+  server.close();
+  process.exit(0);
+});
+process.on('SIGTERM', () => {
+  server.close((err) => {
+    if (err) {
+      console.error(err);
+      process.exit(1);
+    }
+    process.exit(0);
+  });
+});
