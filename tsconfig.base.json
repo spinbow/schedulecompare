@@ -2,6 +2,7 @@
   "files": [],
   "compilerOptions": {
     "module": "ESNext",
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "strict": true
   }
 }

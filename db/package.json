@@ -6,16 +6,16 @@
     "push": "pnpm exec drizzle-kit push",
     "generate": "pnpm exec drizzle-kit generate",
     "migrate": "pnpm exec drizzle-kit migrate",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "seed": "pnpm exec tsx scripts/populate.ts -L 50"
   },
   "dependencies": {
-    "dotenv": "^17.4.2",
-    "drizzle-orm": "^0.45.2",
+    "drizzle-orm": "^v1.0.0-rc.3",
     "pg": "^8.21.0"
   },
   "devDependencies": {
     "@types/node": "^24.13.1",
     "@types/pg": "^8.20.0",
-    "drizzle-kit": "^0.31.10"
+    "drizzle-kit": "^v1.0.0-rc.3"
   }
 }
