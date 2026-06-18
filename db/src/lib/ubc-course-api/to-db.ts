@@ -1,4 +1,4 @@
-import { Course, Section, Session, Term } from '../../schema';
+import { Course, Section, Session, Term } from '../../schema/courses';
 import { ApiCourseData, ApiSectionData } from './schema';
 
 const SECONDS_IN_MINUTE = 60;
