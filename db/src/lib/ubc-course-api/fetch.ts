@@ -26,7 +26,6 @@ export async function fetchCourses(limit?: number): Promise<ApiCourseData[]> {
 
   while (url) {
     const page = await fetchCoursesPage(url);
-    console.log(`got ${page.data.length} courses from ${url}`);
     data = data.concat(page.data); // concat is generally faster than spread
 
     if (limit && data.length >= limit) {
