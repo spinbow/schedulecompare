@@ -38,7 +38,7 @@ export const sectionsTable = pgTable('sections', {
   friday: boolean().notNull().default(false),
 });
 
-export const relations = defineRelations({ coursesTable, sectionsTable }, (r) => ({
+export const courseRelations = defineRelations({ coursesTable, sectionsTable }, (r) => ({
   sectionsTable: {
     course: r.one.coursesTable({
       from: r.sectionsTable.courseId,
