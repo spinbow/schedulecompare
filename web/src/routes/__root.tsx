@@ -1,14 +1,16 @@
+import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { TestFetch } from './components/test-fetch';
+
+export const Route = createRootRoute({
+  component: RootComponent,
+});
 
 const queryClient = new QueryClient();
 
-function App() {
+function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TestFetch />
+      <Outlet />
     </QueryClientProvider>
   );
 }
-
-export default App;
