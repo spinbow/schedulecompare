@@ -48,9 +48,6 @@ importers:
       '@schedulecompare/db':
         specifier: workspace:*
         version: link:../db
-      '@schedulecompare/shared':
-        specifier: workspace:*
-        version: link:../shared
       '@trpc/server':
         specifier: ^11.17.0
         version: 11.17.0(typescript@6.0.3)
@@ -84,16 +81,11 @@ importers:
         specifier: ^v1.0.0-rc.3
         version: 1.0.0-rc.4-ca0f029
 
-  shared: {}
-
   web:
     dependencies:
       '@schedulecompare/api':
         specifier: workspace:*
         version: link:../api
-      '@schedulecompare/shared':
-        specifier: workspace:*
-        version: link:../shared
       '@tailwindcss/vite':
         specifier: ^4.3.0
         version: 4.3.0(vite@8.0.16(@types/node@24.13.1)(esbuild@0.28.0)(jiti@2.7.0)(tsx@4.22.4))
