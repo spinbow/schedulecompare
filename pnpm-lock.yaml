@@ -51,6 +51,9 @@ importers:
       '@trpc/server':
         specifier: ^11.17.0
         version: 11.17.0(typescript@6.0.3)
+      drizzle-orm:
+        specifier: ^v1.0.0-rc.3
+        version: 1.0.0-rc.4-5d5b77c(@types/pg@8.20.0)(pg@8.21.0)(zod@4.4.3)
       hono:
         specifier: ^4.12.26
         version: 4.12.26

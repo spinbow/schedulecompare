@@ -16,7 +16,8 @@
     "@hono/trpc-server": "^0.4.2",
     "@schedulecompare/db": "workspace:*",
     "@trpc/server": "^11.17.0",
-    "hono": "^4.12.26"
+    "hono": "^4.12.26",
+    "drizzle-orm": "^v1.0.0-rc.3"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
