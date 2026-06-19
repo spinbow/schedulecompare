@@ -4,10 +4,17 @@ import { trpcServer } from '@hono/trpc-server';
 import process from 'node:process';
 import { appRouter } from './app-router';
 import { cors } from 'hono/cors';
+import { auth } from '@schedulecompare/db';
 
 const app = new Hono();
 
-app.use('*', cors());
+app.use(
+  '*',
+  cors({
+    origin: process.env.BETTER_AUTH_URL,
+    credentials: true,
+  }),
+);
 app.use(
   '/trpc/*',
   trpcServer({
@@ -18,6 +25,7 @@ app.use(
 app.get('/', (c) => {
   return c.text('Hello Hono!');
 });
+app.on(['POST', 'GET'], '/api/auth/*', (c) => auth.handler(c.req.raw));
 
 const server = serve(
   {

@@ -1,2 +1,3 @@
 export * from './client';
-export * from './schema/courses';
+export * from './auth';
+export * from './schema';

@@ -14,7 +14,7 @@
   "dependencies": {
     "@hono/node-server": "^2.0.4",
     "@hono/trpc-server": "^0.4.2",
-    "@schedulecompare/shared": "workspace:*",
+    "@schedulecompare/db": "workspace:*",
     "@trpc/server": "^11.17.0",
     "hono": "^4.12.26"
   },
