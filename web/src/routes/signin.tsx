@@ -1,40 +1,18 @@
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { useState } from 'react';
 import { authClient } from '../lib/auth';
 
-export function AuthTest() {
-  const { data, isPending, error } = authClient.useSession();
+export const Route = createFileRoute('/signin')({
+  component: Auth,
+});
 
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{`Error: ${error}`}</div>;
-  }
-
-  if (!data) {
-    return <SignedOut />;
-  }
-
-  return <SignedIn email={data.user.email} />;
-}
-
-interface SignedInProps {
-  email: string;
-}
-function SignedIn({ email }: SignedInProps) {
+function Auth() {
   return (
     <div>
-      <p>Signed in as {email}</p>
-      <button onClick={() => authClient.signOut()}>Sign out</button>
-    </div>
-  );
-}
-
-function SignedOut() {
-  return (
-    <div>
+      <Link to="/">Back to home</Link>
+      <hr />
       <SignIn />
+      <hr />
       <SignUp />
     </div>
   );
@@ -51,7 +29,7 @@ function SignIn() {
       {
         email,
         password,
-        callbackURL: '/',
+        callbackURL: '/app',
       },
       {
         onRequest: (ctx) => {
@@ -78,7 +56,7 @@ function SignIn() {
 
   return (
     <div>
-      <h1>Sign up</h1>
+      <h1>Sign in</h1>
       <p>email</p>
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
@@ -105,7 +83,7 @@ function SignUp() {
         email, // user email address
         password, // user password -> min 8 characters by default
         name, // user display name
-        callbackURL: '/', // A URL to redirect to after the user verifies their email (optional)
+        callbackURL: '/app', // A URL to redirect to after the user verifies their email (optional)
       },
       {
         onRequest: (ctx) => {
