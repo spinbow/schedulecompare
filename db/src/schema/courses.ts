@@ -1,6 +1,6 @@
 import { boolean, char, pgTable, text, time, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createSelectSchema } from 'drizzle-orm/zod';
-import { defineRelations } from 'drizzle-orm';
+import { defineRelationsPart } from 'drizzle-orm';
 import { string, z } from 'zod';
 
 export const DayOfTheWeekSchema = z.literal(['m', 't', 'w', 'th', 'f']);
@@ -38,7 +38,7 @@ export const sectionsTable = pgTable('sections', {
   friday: boolean().notNull().default(false),
 });
 
-export const courseRelations = defineRelations({ coursesTable, sectionsTable }, (r) => ({
+export const courseRelations = defineRelationsPart({ coursesTable, sectionsTable }, (r) => ({
   sectionsTable: {
     course: r.one.coursesTable({
       from: r.sectionsTable.courseId,
