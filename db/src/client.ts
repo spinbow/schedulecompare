@@ -2,7 +2,7 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import 'dotenv/config';
 import process from 'node:process';
 
-export function createDatabaseClient(databaseUrl = process.env.DATABASE_URL) {
+function createDatabaseClient(databaseUrl = process.env.DATABASE_URL) {
   if (!databaseUrl) {
     throw new Error('DATABASE_URL is required to create the database client');
   }
@@ -10,3 +10,5 @@ export function createDatabaseClient(databaseUrl = process.env.DATABASE_URL) {
   const db = drizzle(databaseUrl);
   return db;
 }
+
+export const db = createDatabaseClient();
