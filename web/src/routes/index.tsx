@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
+import { AuthTest } from '../components/auth-test';
 
 export const Route = createFileRoute('/')({
   component: Index,
@@ -7,7 +8,7 @@ export const Route = createFileRoute('/')({
 function Index() {
   return (
     <>
-      <Link to="/login">Log In</Link>
+      <AuthTest />
     </>
   );
 }

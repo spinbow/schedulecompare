@@ -8,7 +8,13 @@ import { auth } from '@schedulecompare/db';
 
 const app = new Hono();
 
-app.use('*', cors());
+app.use(
+  '*',
+  cors({
+    origin: process.env.BETTER_AUTH_URL,
+    credentials: true,
+  }),
+);
 app.use(
   '/trpc/*',
   trpcServer({
