@@ -1,7 +1,7 @@
-import { boolean, char, pgTable, time, varchar } from 'drizzle-orm/pg-core';
+import { boolean, char, pgTable, text, time, uuid, varchar } from 'drizzle-orm/pg-core';
 import { createSelectSchema } from 'drizzle-orm/zod';
 import { defineRelations } from 'drizzle-orm';
-import { z } from 'zod';
+import { string, z } from 'zod';
 
 export const DayOfTheWeekSchema = z.literal(['m', 't', 'w', 'th', 'f']);
 export const SessionSchema = z.literal(['s', 'w']);
@@ -12,24 +12,24 @@ export type Session = z.infer<typeof SessionSchema>;
 export type Term = z.infer<typeof TermSchema>;
 
 export const coursesTable = pgTable('courses', {
-  id: char({ length: 36 }).primaryKey(), // uuid from API
-  code: varchar({ length: 63 }).unique().notNull(),
-  title: varchar({ length: 255 }).notNull(),
+  id: uuid().primaryKey(), // uuid from API
+  code: varchar({ length: 16 }).unique().notNull(),
+  title: text().notNull(),
 });
 
 export const sectionsTable = pgTable('sections', {
-  id: char({ length: 36 }).primaryKey(), // uuid from API
-  courseId: char({ length: 36 })
+  id: uuid().primaryKey(), // uuid from API
+  courseId: uuid('course_id')
     .notNull()
     .references(() => coursesTable.id, { onDelete: 'cascade' }),
 
-  code: varchar({ length: 63 }).notNull(),
-  year: char({ length: 4 }).notNull(),
+  code: varchar({ length: 8 }).notNull(),
+  year: char({ length: 4 }).notNull(), // e.g. 2025
   session: char({ length: 1 }).notNull(),
   term: char({ length: 1 }),
 
-  startTime: time(),
-  endTime: time(),
+  startTime: time('start_time'),
+  endTime: time('end_time'),
 
   monday: boolean().notNull().default(false),
   tuesday: boolean().notNull().default(false),
@@ -53,6 +53,7 @@ export const selectCourseSchema = createSelectSchema(coursesTable).extend({
 export const selectSectionSchema = createSelectSchema(sectionsTable).extend({
   id: z.uuidv4(),
   courseId: z.uuidv4(),
+  year: string().length(4),
   session: SessionSchema,
   term: TermSchema,
 });
