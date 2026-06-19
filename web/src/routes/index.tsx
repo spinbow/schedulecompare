@@ -1,10 +1,13 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { TestFetch } from '../components/test-fetch';
+import { createFileRoute, Link } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/')({
   component: Index,
 });
 
 function Index() {
-  return <TestFetch />;
+  return (
+    <>
+      <Link to="/login">Log In</Link>
+    </>
+  );
 }
