@@ -1,7 +1,6 @@
-import { auth, courseRegTable, db, sectionWithCourseSchema } from '@schedulecompare/db';
+import { courseRegTable, db, sectionWithCourseSchema } from '@schedulecompare/db';
 import crypto from 'crypto';
-import { publicProcedure } from '../trpc';
-import { TRPCError } from '@trpc/server';
+import { authedProcedure } from '../trpc';
 import { and, eq } from 'drizzle-orm';
 import z, { uuidv4 } from 'zod';
 
@@ -24,43 +23,24 @@ async function getRegisteredSections(userId: string) {
     },
   });
 
-  console.log(registrations);
   const map = registrations.map((registration) => registration.section);
   return z.array(sectionWithCourseSchema).parse(map);
 }
-
-export const getRegisteredSectionsProcedure = publicProcedure.query(async ({ ctx }) => {
-  const session = await auth.api.getSession({
-    headers: ctx.headers,
-  });
-
-  if (!session) {
-    throw new TRPCError({ code: 'UNAUTHORIZED' });
-  }
-
-  return getRegisteredSections(session.user.id);
+export const getRegisteredSectionsProcedure = authedProcedure.query(async ({ ctx }) => {
+  return getRegisteredSections(ctx.session.user.id);
 });
 
 async function registerSection(userId: string, sectionId: string) {
   await db.insert(courseRegTable).values({ id: crypto.randomUUID(), userId, sectionId });
 }
-
-export const registerSectionProcedure = publicProcedure
+export const registerSectionProcedure = authedProcedure
   .input(
     z.object({
       id: uuidv4(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    const session = await auth.api.getSession({
-      headers: ctx.headers,
-    });
-
-    if (!session) {
-      throw new TRPCError({ code: 'UNAUTHORIZED' });
-    }
-
-    registerSection(session.user.id, input.id);
+    registerSection(ctx.session.user.id, input.id);
   });
 
 async function unregisterSection(userId: string, sectionId: string) {
@@ -68,21 +48,12 @@ async function unregisterSection(userId: string, sectionId: string) {
     .delete(courseRegTable)
     .where(and(eq(courseRegTable.userId, userId), eq(courseRegTable.sectionId, sectionId)));
 }
-
-export const unregisterSectionProcedure = publicProcedure
+export const unregisterSectionProcedure = authedProcedure
   .input(
     z.object({
       id: uuidv4(),
     }),
   )
   .mutation(async ({ ctx, input }) => {
-    const session = await auth.api.getSession({
-      headers: ctx.headers,
-    });
-
-    if (!session) {
-      throw new TRPCError({ code: 'UNAUTHORIZED' });
-    }
-
-    unregisterSection(session.user.id, input.id);
+    unregisterSection(ctx.session.user.id, input.id);
   });
