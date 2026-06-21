@@ -7,7 +7,7 @@ import {
   type SectionWithCourse,
   type Session,
 } from '../../../db/src/schema';
-import { Button } from './shadcn/ui/button';
+import { Button } from '@/components/ui/shadcn/button';
 
 const fetchCourses = async (input: string, setResults: (value: Course[]) => void) => {
   const data = await trpc.searchCourses.query({ query: input });

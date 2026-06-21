@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { Button } from '@/components/shadcn/ui/button';
+import { Button } from '@/components/ui/shadcn/button';
 import { authClient } from '../lib/auth';
 
 export function AuthButton() {
@@ -11,7 +11,7 @@ export function AuthButton() {
   if (!data) {
     return (
       <Button asChild>
-        <Link to="/signin">Login</Link>
+        <Link to="/login">Login</Link>
       </Button>
     );
   }
