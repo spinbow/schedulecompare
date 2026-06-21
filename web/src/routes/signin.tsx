@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useState } from 'react';
+import { Button } from '@/components/shadcn/ui/button';
 import { authClient } from '../lib/auth';
 
 export const Route = createFileRoute('/signin')({
@@ -9,7 +10,9 @@ export const Route = createFileRoute('/signin')({
 function Auth() {
   return (
     <div>
-      <Link to="/">Back to home</Link>
+      <Button asChild variant="outline">
+        <Link to="/">Back to home</Link>
+      </Button>
       <hr />
       <SignIn />
       <hr />
@@ -66,7 +69,7 @@ function SignIn() {
       <p>remember me</p>
       <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
 
-      <button onClick={signIn}>Sign in</button>
+      <Button onClick={signIn}>Sign in</Button>
     </div>
   );
 }
@@ -120,7 +123,7 @@ function SignUp() {
       <p>name</p>
       <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
 
-      <button onClick={signUp}>Sign up</button>
+      <Button onClick={signUp}>Sign up</Button>
     </div>
   );
 }

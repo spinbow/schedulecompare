@@ -7,6 +7,7 @@ import {
   type SectionWithCourse,
   type Session,
 } from '../../../db/src/schema';
+import { Button } from './shadcn/ui/button';
 
 const fetchCourses = async (input: string, setResults: (value: Course[]) => void) => {
   const data = await trpc.searchCourses.query({ query: input });
@@ -53,7 +54,9 @@ export function TestReg() {
         <p>Selected course:</p>
         <p>{selectedCourse.code}</p>
         <p>{selectedCourse.title}</p>
-        <button onClick={() => setSelectedCourse(null)}>clear</button>
+        <Button variant="outline" onClick={() => setSelectedCourse(null)}>
+          clear
+        </Button>
       </div>
     );
   };
@@ -95,7 +98,7 @@ function CourseSelector({ onSelect }: { onSelect: (course: Course) => void }) {
         <div key={result.id}>
           <p>{result.code}</p>
           <p>{result.title}</p>
-          <button onClick={() => onSelect(result)}>select</button>
+          <Button onClick={() => onSelect(result)}>select</Button>
         </div>
       ))}
     </div>
@@ -164,7 +167,7 @@ function SectionSelector({
             {isRegistered ? (
               <p>Registered</p>
             ) : (
-              <button onClick={() => handleRegister(result)}>register</button>
+              <Button onClick={() => handleRegister(result)}>register</Button>
             )}
           </div>
         );
@@ -191,7 +194,9 @@ function RegisteredCourses({
       {regSections.map((section) => (
         <div key={section.id}>
           <SectionDisplay section={section} />
-          <button onClick={() => handleUnregister(section)}>unregister</button>
+          <Button variant="destructive" onClick={() => handleUnregister(section)}>
+            unregister
+          </Button>
         </div>
       ))}
     </div>
