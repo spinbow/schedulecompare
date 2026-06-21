@@ -13,13 +13,10 @@
     "seed": "pnpm exec tsx scripts/populate.ts -L 50"
   },
   "dependencies": {
-    "deepmerge": "^4.3.1",
     "drizzle-orm": "^v1.0.0-rc.3",
-    "lodash-es": "^4.18.1",
     "pg": "^8.21.0"
   },
   "devDependencies": {
-    "@types/lodash-es": "^4.17.12",
     "@types/node": "^24.13.1",
     "@types/pg": "^8.20.0",
     "drizzle-kit": "^v1.0.0-rc.3"

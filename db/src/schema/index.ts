@@ -8,8 +8,7 @@ import { account, authRelationsConfig, session, user, verification } from './aut
 import { courseRelationsConfig, coursesTable, sectionsTable } from './courses';
 import { courseRegRelationsConfig, courseRegTable } from './registrations';
 import { friendRelationsConfig, friendsTable } from './friends';
-import deepmerge from 'deepmerge';
-import { isPlainObject } from 'lodash-es';
+import { mergeRelationConfigs } from '../lib/merge-relation-configs';
 
 const allTables = {
   account,
@@ -23,15 +22,13 @@ const allTables = {
 };
 export type AllTables = typeof allTables;
 
-// use deepmerge to define scoped relations, then combine them into a single config
+// to have scoped relations, we need a special function to merge the relation configs
+// since object spreading only gets us shallow merges.
 export const relations = defineRelations(allTables, (r) => {
-  const relationsArray = [
+  return mergeRelationConfigs(
     authRelationsConfig(r),
     courseRelationsConfig(r),
     courseRegRelationsConfig(r),
     friendRelationsConfig(r),
-  ];
-  return deepmerge.all(relationsArray, {
-    isMergeableObject: isPlainObject,
-  });
+  );
 });
