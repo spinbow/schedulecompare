@@ -1,4 +1,5 @@
-import { initTRPC } from '@trpc/server';
+import { auth } from '@schedulecompare/db';
+import { initTRPC, TRPCError } from '@trpc/server';
 import superjson from 'superjson';
 
 export const createTRPCContext = (opts: { headers: Headers }) => {
@@ -23,3 +24,21 @@ const t = initTRPC.context<TRPCContext>().create({
  */
 export const router = t.router;
 export const publicProcedure = t.procedure;
+
+// use this to enforce user is authenticated
+export const authedProcedure = t.procedure.use(async function isAuthed(opts) {
+  const { ctx } = opts;
+  const session = await auth.api.getSession({
+    headers: ctx.headers,
+  });
+
+  if (!session) {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+
+  return opts.next({
+    ctx: {
+      session,
+    },
+  });
+});

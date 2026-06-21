@@ -1,15 +1,8 @@
-import {
-  auth,
-  db,
-  sectionsTable,
-  selectSectionSchema,
-  SessionSchema,
-} from '@schedulecompare/db';
+import { db, sectionsTable, selectSectionSchema, SessionSchema } from '@schedulecompare/db';
 import type { Session } from '@schedulecompare/db';
 import { and, asc, eq } from 'drizzle-orm';
-import { publicProcedure } from '../trpc';
+import { authedProcedure } from '../trpc';
 import z from 'zod';
-import { TRPCError } from '@trpc/server';
 
 async function getSections(courseId: string, year: string, session: Session) {
   const result = await db
@@ -26,8 +19,7 @@ async function getSections(courseId: string, year: string, session: Session) {
 
   return z.array(selectSectionSchema).parse(result);
 }
-
-export const getSectionsProcedure = publicProcedure
+export const getSectionsProcedure = authedProcedure
   .input(
     z.object({
       courseId: z.uuidv4(),
@@ -35,14 +27,6 @@ export const getSectionsProcedure = publicProcedure
       session: SessionSchema,
     }),
   )
-  .query(async ({ ctx, input }) => {
-    const session = await auth.api.getSession({
-      headers: ctx.headers,
-    });
-
-    if (!session) {
-      throw new TRPCError({ code: 'UNAUTHORIZED' });
-    }
-
+  .query(async ({ input }) => {
     return getSections(input.courseId, input.year, input.session);
   });
