@@ -8,6 +8,7 @@ import {
   type Session,
 } from '../../../db/src/schema';
 import { Button } from '@/components/ui/shadcn/button';
+import { Input } from '@/components/ui/shadcn/input';
 import { H2, P } from '@/components/ui/shadcn/typography';
 
 const fetchCourses = async (input: string, setResults: (value: Course[]) => void) => {
@@ -94,7 +95,7 @@ function CourseSelector({ onSelect }: { onSelect: (course: Course) => void }) {
   return (
     <div>
       <H2>Course Selector</H2>
-      <input type="text" value={input} onChange={(e) => setInput(e.target.value)} />
+      <Input type="text" value={input} onChange={(e) => setInput(e.target.value)} />
       {results.map((result) => (
         <div key={result.id}>
           <P>{result.code}</P>
@@ -148,8 +149,8 @@ function SectionSelector({
   return (
     <div>
       <H2>Section Selector</H2>
-      <input type="text" value={year} onChange={(e) => setYear(e.target.value)} />
-      <input
+      <Input type="text" value={year} onChange={(e) => setYear(e.target.value)} />
+      <Input
         type="text"
         value={session}
         onChange={(e) => {
@@ -192,6 +193,7 @@ function RegisteredCourses({
   return (
     <div>
       <H2>Registered Courses</H2>
+      {regSections.length === 0 && <P>No registered courses.</P>}
       {regSections.map((section) => (
         <div key={section.id}>
           <SectionDisplay section={section} />
