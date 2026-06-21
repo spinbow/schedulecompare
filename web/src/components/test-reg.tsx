@@ -1,10 +1,10 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { trpc } from '../lib/trpc';
 import {
   SessionSchema,
   type Course,
-  type CourseRegistration,
   type Section,
+  type SectionWithCourse,
   type Session,
 } from '../../../db/src/schema';
 
@@ -23,23 +23,26 @@ const fetchSections = async (
   setResults(data);
 };
 
-const fetchRegSectionIds = async (setResults: (value: string[]) => void) => {
-  const data = await trpc.getRegistrations.query();
-  const ids = data.map((reg) => reg.sectionId);
-  setResults(ids);
+const fetchRegSections = async (setResults: (value: SectionWithCourse[]) => void) => {
+  const data = await trpc.getRegisteredSections.query();
+  setResults(data);
 };
 
 const registerSection = async (sectionId: string) => {
   await trpc.registerSection.mutate({ id: sectionId });
 };
 
+const unregisterSection = async (sectionId: string) => {
+  await trpc.unregisterSection.mutate({ id: sectionId });
+};
+
 export function TestReg() {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const [regSectionIds, setRegSectionIds] = useState<string[]>([]);
+  const [regSections, setRegSections] = useState<SectionWithCourse[]>([]);
 
   // fetch registered courses, should replace with proper tanstack query later
   useEffect(() => {
-    fetchRegSectionIds(setRegSectionIds);
+    fetchRegSections(setRegSections);
   }, []);
 
   const selectedCourseDisplay = () => {
@@ -63,14 +66,14 @@ export function TestReg() {
           <SectionSelector
             course={selectedCourse}
             registerSection={registerSection}
-            regSectionIds={regSectionIds}
-            setRegSectionIds={setRegSectionIds}
+            regSections={regSections}
+            setRegSections={setRegSections}
           />
         </>
       ) : (
         <CourseSelector onSelect={setSelectedCourse} />
       )}
-      <RegisteredCourses regSectionIds={regSectionIds} />
+      <RegisteredCourses regSections={regSections} setRegSections={setRegSections} />
     </div>
   );
 }
@@ -99,16 +102,30 @@ function CourseSelector({ onSelect }: { onSelect: (course: Course) => void }) {
   );
 }
 
+function SectionDisplay({ section }: { section: Section | SectionWithCourse }) {
+  return (
+    <div>
+      {'course' in section && (
+        <p>
+          Course: {section.course.code} - {section.course.title}
+        </p>
+      )}
+      <p>Code: {section.code}</p>
+      <p>Term: {section.term}</p>
+    </div>
+  );
+}
+
 function SectionSelector({
   course,
   registerSection,
-  regSectionIds,
-  setRegSectionIds,
+  regSections,
+  setRegSections,
 }: {
   course: Course;
   registerSection: (sectionId: string) => void;
-  regSectionIds: string[];
-  setRegSectionIds: (value: string[]) => void;
+  regSections: SectionWithCourse[];
+  setRegSections: (value: SectionWithCourse[]) => void;
 }) {
   const [year, setYear] = useState<string>('2026');
   const [session, setSession] = useState<Session>('w');
@@ -119,7 +136,8 @@ function SectionSelector({
   }, [year, session]);
 
   const handleRegister = async (section: Section) => {
-    setRegSectionIds([...regSectionIds, section.id]);
+    const sectionWithcourse = { ...section, course };
+    setRegSections([...regSections, sectionWithcourse]);
     registerSection(section.id);
   };
 
@@ -137,27 +155,44 @@ function SectionSelector({
           setSession(parsed);
         }}
       />
-      {results.map((result) => (
-        <div key={result.id}>
-          <p>Code: {result.code}</p>
-          <p>Term: {result.term}</p>
-          {regSectionIds.includes(result.id) ? (
-            <p>Registered</p>
-          ) : (
-            <button onClick={() => handleRegister(result)}>register</button>
-          )}
-        </div>
-      ))}
+      {results.map((result) => {
+        const isRegistered = regSections.some((section) => section.id === result.id);
+
+        return (
+          <div key={result.id}>
+            <SectionDisplay section={result} />
+            {isRegistered ? (
+              <p>Registered</p>
+            ) : (
+              <button onClick={() => handleRegister(result)}>register</button>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
 
-function RegisteredCourses({ regSectionIds }: { regSectionIds: string[] }) {
+function RegisteredCourses({
+  regSections,
+  setRegSections,
+}: {
+  regSections: SectionWithCourse[];
+  setRegSections: (value: SectionWithCourse[]) => void;
+}) {
+  const handleUnregister = async (section: Section) => {
+    setRegSections(regSections.filter((s) => s.id !== section.id));
+    unregisterSection(section.id);
+  };
+
   return (
     <div>
       <h2>Registered Courses</h2>
-      {regSectionIds.map((id) => (
-        <p key={id}>{id}</p>
+      {regSections.map((section) => (
+        <div key={section.id}>
+          <SectionDisplay section={section} />
+          <button onClick={() => handleUnregister(section)}>unregister</button>
+        </div>
       ))}
     </div>
   );
