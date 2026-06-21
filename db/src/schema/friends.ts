@@ -24,15 +24,25 @@ export const friendsTable = pgTable(
 
 export const friendRelationsConfig = (r: RelationsBuilder<AllTables>) => ({
   friendsTable: {
-    lowerUser: r.one.user({
+    lowerIdUser: r.one.user({
       from: r.friendsTable.lowerId,
       to: r.user.id,
       optional: false,
     }),
-    higherUser: r.one.user({
+    higherIdUser: r.one.user({
       from: r.friendsTable.higherId,
       to: r.user.id,
       optional: false,
+    }),
+  },
+  user: {
+    friendsLowerId: r.many.friendsTable({
+      from: r.user.id,
+      to: r.friendsTable.lowerId,
+    }),
+    friendsHigherId: r.many.friendsTable({
+      from: r.user.id,
+      to: r.friendsTable.higherId,
     }),
   },
 });
