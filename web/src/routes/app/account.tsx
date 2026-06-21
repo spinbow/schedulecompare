@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { TestReg } from '../../components/test-reg';
+import { H1 } from '@/components/ui/shadcn/typography';
 
 export const Route = createFileRoute('/app/account')({
   component: Account,
@@ -8,7 +9,7 @@ export const Route = createFileRoute('/app/account')({
 function Account() {
   return (
     <div>
-      <h1>Account page</h1>
+      <H1>Account page</H1>
       <TestReg />
     </div>
   );

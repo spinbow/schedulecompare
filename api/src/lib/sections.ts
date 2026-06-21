@@ -3,9 +3,9 @@ import {
   db,
   sectionsTable,
   selectSectionSchema,
-  Session,
   SessionSchema,
 } from '@schedulecompare/db';
+import type { Session } from '@schedulecompare/db';
 import { and, asc, eq } from 'drizzle-orm';
 import { publicProcedure } from '../trpc';
 import z from 'zod';

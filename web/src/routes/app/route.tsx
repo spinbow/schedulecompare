@@ -22,7 +22,7 @@ function AppLayout() {
   // route users away from app when not authenticated
   useEffect(() => {
     if (!isPending && !data) {
-      navigate({ to: '/signin' });
+      navigate({ to: '/login' });
     }
   }, [data, isPending]);
 

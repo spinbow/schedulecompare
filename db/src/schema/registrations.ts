@@ -1,4 +1,4 @@
-import { char, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 import { user } from './auth';
 import { sectionsTable } from './courses';
 import z from 'zod';
