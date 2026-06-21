@@ -1,5 +1,6 @@
 export * from './auth';
 export * from './courses';
+export * from './friends';
 export * from './registrations';
 
 import { defineRelations } from 'drizzle-orm';
