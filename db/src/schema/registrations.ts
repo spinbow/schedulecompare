@@ -21,6 +21,7 @@ export const courseRegRelations = defineRelationsPart({ courseRegTable, sections
     section: r.one.sectionsTable({
       from: r.courseRegTable.sectionId,
       to: r.sectionsTable.id,
+      optional: false,
     }),
   },
 }));

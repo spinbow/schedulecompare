@@ -43,6 +43,7 @@ export const courseRelations = defineRelationsPart({ coursesTable, sectionsTable
     course: r.one.coursesTable({
       from: r.sectionsTable.courseId,
       to: r.coursesTable.id,
+      optional: false,
     }),
   },
 }));
@@ -57,6 +58,10 @@ export const selectSectionSchema = createSelectSchema(sectionsTable).extend({
   session: SessionSchema,
   term: TermSchema,
 });
+export const sectionWithCourseSchema = selectSectionSchema.extend({
+  course: selectCourseSchema,
+});
 
 export type Course = z.infer<typeof selectCourseSchema>;
 export type Section = z.infer<typeof selectSectionSchema>;
+export type SectionWithCourse = z.infer<typeof sectionWithCourseSchema>;
