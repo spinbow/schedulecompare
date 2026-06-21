@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { AuthTest } from '../components/auth-test';
+import { AuthButton } from '../components/auth-button';
 
 export const Route = createFileRoute('/')({
   component: Index,
@@ -8,7 +8,9 @@ export const Route = createFileRoute('/')({
 function Index() {
   return (
     <>
-      <AuthTest />
+      <h1>Schedule Compare</h1>
+      <p>Welcome to Schedule Compare!</p>
+      <AuthButton />
     </>
   );
 }

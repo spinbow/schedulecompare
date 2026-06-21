@@ -5,6 +5,7 @@ import process from 'node:process';
 import { appRouter } from './app-router';
 import { cors } from 'hono/cors';
 import { auth } from '@schedulecompare/db';
+import { createTRPCContext } from './trpc';
 
 const app = new Hono();
 
@@ -19,6 +20,7 @@ app.use(
   '/trpc/*',
   trpcServer({
     router: appRouter,
+    createContext: (_opts, c) => createTRPCContext({ headers: c.req.raw.headers }),
   }),
 );
 

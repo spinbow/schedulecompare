@@ -6,7 +6,7 @@ import {
   apiCourseDataToDbCourse,
   apiSectionDataToDbSection,
 } from '../src/lib/ubc-course-api/to-db';
-import { createDatabaseClient } from '../src/client';
+import { db } from '../src/client';
 import { coursesTable, sectionsTable } from '../src/schema/courses';
 
 // script for fetching and populating data in the database.
@@ -26,8 +26,6 @@ if (limitIdx !== -1) {
 } else {
   console.log(`Fetching all available courses...`);
 }
-
-const db = createDatabaseClient();
 
 // fetch and insert course data
 const apiCourses = await fetchCourses(limit);

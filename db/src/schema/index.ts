@@ -3,11 +3,20 @@ export * from './courses';
 export * from './registrations';
 
 import { defineRelations } from 'drizzle-orm';
-import { authRelations } from './auth';
-import { courseRelations } from './courses';
-import { courseRegRelations } from './registrations';
+import { account, authRelations, session, user, verification } from './auth';
+import { courseRelations, coursesTable, sectionsTable } from './courses';
+import { courseRegRelations, courseRegTable } from './registrations';
 
-const baseRelations = defineRelations({}); // drizzle needs a base relation
+const baseRelations = defineRelations({
+  account,
+  courseRegTable,
+  coursesTable,
+  sectionsTable,
+  session,
+  user,
+  verification,
+});
+
 export const relations = {
   ...baseRelations,
   ...authRelations,

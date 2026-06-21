@@ -1,10 +1,18 @@
-import { publicProcedure, router } from './trpc';
+import { searchCoursesProcedure } from './lib/courses';
+import { getSectionsProcedure } from './lib/sections';
+import {
+  getRegisteredSectionsProcedure,
+  registerSectionProcedure,
+  unregisterSectionProcedure,
+} from './lib/registrations';
+import { router } from './trpc';
 
 export const appRouter = router({
-  userList: publicProcedure.query(async () => {
-    const users = [{ id: '1', name: 'Katt' }];
-    return users;
-  }),
+  searchCourses: searchCoursesProcedure,
+  getSections: getSectionsProcedure,
+  getRegisteredSections: getRegisteredSectionsProcedure,
+  registerSection: registerSectionProcedure,
+  unregisterSection: unregisterSectionProcedure,
 });
 
 export type AppRouter = typeof appRouter;
