@@ -1,8 +1,9 @@
 import { check, pgTable, primaryKey, text, timestamp } from 'drizzle-orm/pg-core';
 import { user } from './auth';
-import { defineRelationsPart, lt } from 'drizzle-orm';
+import { lt, RelationsBuilder } from 'drizzle-orm';
 import { createSelectSchema } from 'drizzle-orm/zod';
 import z from 'zod';
+import type { AllTables } from '.';
 
 export const friendsTable = pgTable(
   'friends',
@@ -21,7 +22,7 @@ export const friendsTable = pgTable(
   ],
 );
 
-export const friendRelations = defineRelationsPart({ friendsTable, user }, (r) => ({
+export const friendRelationsConfig = (r: RelationsBuilder<AllTables>) => ({
   friendsTable: {
     lowerUser: r.one.user({
       from: r.friendsTable.lowerId,
@@ -34,7 +35,7 @@ export const friendRelations = defineRelationsPart({ friendsTable, user }, (r) =
       optional: false,
     }),
   },
-}));
+});
 
 export const friendDataSchema = createSelectSchema(friendsTable);
 

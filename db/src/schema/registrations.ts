@@ -3,7 +3,8 @@ import { user } from './auth';
 import { sectionsTable } from './courses';
 import z from 'zod';
 import { createSelectSchema } from 'drizzle-orm/zod';
-import { defineRelationsPart } from 'drizzle-orm';
+import { RelationsBuilder } from 'drizzle-orm';
+import type { AllTables } from '.';
 
 export const courseRegTable = pgTable('course_reg', {
   id: uuid('id').primaryKey(),
@@ -16,7 +17,7 @@ export const courseRegTable = pgTable('course_reg', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
-export const courseRegRelations = defineRelationsPart({ courseRegTable, sectionsTable }, (r) => ({
+export const courseRegRelationsConfig = (r: RelationsBuilder<AllTables>) => ({
   courseRegTable: {
     section: r.one.sectionsTable({
       from: r.courseRegTable.sectionId,
@@ -24,7 +25,7 @@ export const courseRegRelations = defineRelationsPart({ courseRegTable, sections
       optional: false,
     }),
   },
-}));
+});
 
 export const selectCourseRegSchema = createSelectSchema(courseRegTable);
 

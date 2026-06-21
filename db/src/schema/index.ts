@@ -3,12 +3,14 @@ export * from './courses';
 export * from './registrations';
 
 import { defineRelations } from 'drizzle-orm';
-import { account, authRelations, session, user, verification } from './auth';
-import { courseRelations, coursesTable, sectionsTable } from './courses';
-import { courseRegRelations, courseRegTable } from './registrations';
-import { friendRelations, friendsTable } from './friends';
+import { account, authRelationsConfig, session, user, verification } from './auth';
+import { courseRelationsConfig, coursesTable, sectionsTable } from './courses';
+import { courseRegRelationsConfig, courseRegTable } from './registrations';
+import { friendRelationsConfig, friendsTable } from './friends';
+import deepmerge from 'deepmerge';
+import { isPlainObject } from 'lodash-es';
 
-const baseRelations = defineRelations({
+const allTables = {
   account,
   courseRegTable,
   coursesTable,
@@ -17,12 +19,18 @@ const baseRelations = defineRelations({
   session,
   user,
   verification,
-});
-
-export const relations = {
-  ...baseRelations,
-  ...authRelations,
-  ...courseRelations,
-  ...courseRegRelations,
-  ...friendRelations,
 };
+export type AllTables = typeof allTables;
+
+// use deepmerge to define scoped relations, then combine them into a single config
+export const relations = defineRelations(allTables, (r) => {
+  const relationsArray = [
+    authRelationsConfig(r),
+    courseRelationsConfig(r),
+    courseRegRelationsConfig(r),
+    friendRelationsConfig(r),
+  ];
+  return deepmerge.all(relationsArray, {
+    isMergeableObject: isPlainObject,
+  });
+});
