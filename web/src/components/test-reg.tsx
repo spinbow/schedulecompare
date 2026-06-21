@@ -8,6 +8,7 @@ import {
   type Session,
 } from '../../../db/src/schema';
 import { Button } from '@/components/ui/shadcn/button';
+import { H2, P } from '@/components/ui/shadcn/typography';
 
 const fetchCourses = async (input: string, setResults: (value: Course[]) => void) => {
   const data = await trpc.searchCourses.query({ query: input });
@@ -51,9 +52,9 @@ export function TestReg() {
 
     return (
       <div>
-        <p>Selected course:</p>
-        <p>{selectedCourse.code}</p>
-        <p>{selectedCourse.title}</p>
+        <P>Selected course:</P>
+        <P>{selectedCourse.code}</P>
+        <P>{selectedCourse.title}</P>
         <Button variant="outline" onClick={() => setSelectedCourse(null)}>
           clear
         </Button>
@@ -92,12 +93,12 @@ function CourseSelector({ onSelect }: { onSelect: (course: Course) => void }) {
 
   return (
     <div>
-      <h2>Course Selector</h2>
+      <H2>Course Selector</H2>
       <input type="text" value={input} onChange={(e) => setInput(e.target.value)} />
       {results.map((result) => (
         <div key={result.id}>
-          <p>{result.code}</p>
-          <p>{result.title}</p>
+          <P>{result.code}</P>
+          <P>{result.title}</P>
           <Button onClick={() => onSelect(result)}>select</Button>
         </div>
       ))}
@@ -109,12 +110,12 @@ function SectionDisplay({ section }: { section: Section | SectionWithCourse }) {
   return (
     <div>
       {'course' in section && (
-        <p>
+        <P>
           Course: {section.course.code} - {section.course.title}
-        </p>
+        </P>
       )}
-      <p>Code: {section.code}</p>
-      <p>Term: {section.term}</p>
+      <P>Code: {section.code}</P>
+      <P>Term: {section.term}</P>
     </div>
   );
 }
@@ -146,7 +147,7 @@ function SectionSelector({
 
   return (
     <div>
-      <h2>Section Selector</h2>
+      <H2>Section Selector</H2>
       <input type="text" value={year} onChange={(e) => setYear(e.target.value)} />
       <input
         type="text"
@@ -165,7 +166,7 @@ function SectionSelector({
           <div key={result.id}>
             <SectionDisplay section={result} />
             {isRegistered ? (
-              <p>Registered</p>
+              <P>Registered</P>
             ) : (
               <Button onClick={() => handleRegister(result)}>register</Button>
             )}
@@ -190,7 +191,7 @@ function RegisteredCourses({
 
   return (
     <div>
-      <h2>Registered Courses</h2>
+      <H2>Registered Courses</H2>
       {regSections.map((section) => (
         <div key={section.id}>
           <SectionDisplay section={section} />

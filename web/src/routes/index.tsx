@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { AuthButton } from '../components/auth-button';
+import { H1, P } from '@/components/ui/shadcn/typography';
 
 export const Route = createFileRoute('/')({
   component: Index,
@@ -8,8 +9,8 @@ export const Route = createFileRoute('/')({
 function Index() {
   return (
     <>
-      <h1>Schedule Compare</h1>
-      <p>Welcome to Schedule Compare!</p>
+      <H1>Schedule Compare</H1>
+      <P>Welcome to Schedule Compare!</P>
       <AuthButton />
     </>
   );
